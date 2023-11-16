@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kung Fu Panda Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        text-align: center;
+        margin: 20px;
+      }
+
+      #quiz-container {
+        max-width: 600px;
+        margin: auto;
+      }
+
+      .question {
+        margin-bottom: 20px;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="quiz-container">
+      <h2>Kung Fu Panda Quiz</h2>
+
+      <div class="question" id="question1">
+        <p>1. What is the name of the main character in Kung Fu Panda?</p>
+        <input type="text" id="answer1" />
+        <p id="feedback1"></p>
+      </div>
+
+      <div class="question" id="question2">
+        <p>2. Who is the wise master that trains Po?</p>
+        <input type="text" id="answer2" />
+        <p id="feedback2"></p>
+      </div>
+
+      <div class="question" id="question3">
+        <p>3. Which city is the setting for most of Kung Fu Panda?</p>
+        <input type="text" id="answer3" />
+        <p id="feedback3"></p>
+      </div>
+
+      <div class="question" id="question4">
+        <p>4. Name one of the Furious Five.</p>
+        <input type="text" id="answer4" />
+        <p id="feedback4"></p>
+      </div>
+
+      <button onclick="gradeQuiz()">Submit Answers</button>
+
+      <div id="result"></div>
+    </div>
+
+    <script>
+      function gradeQuiz() {
+        // Define correct answers
+        const answers = {
+          answer1: "po",
+          answer2: "shifu",
+          answer3: "valley of peace",
+          answer4: ["tigress", "monkey", "mantis", "viper", "crane"],
+        };
+
+        // Initialize variables for scoring
+        let score = 0;
+        let totalQuestions = 4;
+
+        // Check each question and provide feedback
+        for (let i = 1; i <= totalQuestions; i++) {
+          const userAnswer = document
+            .getElementById(`answer${i}`)
+            .value.toLowerCase();
+          const feedbackElement = document.getElementById(`feedback${i}`);
+
+          if (Array.isArray(answers[`answer${i}`])) {
+            // Check if the answer is in the array of valid answers
+            if (answers[`answer${i}`].includes(userAnswer)) {
+              score++;
+              feedbackElement.innerHTML = "Correct!";
+            } else {
+              feedbackElement.innerHTML = "Incorrect. Try again!";
+            }
+          } else {
+            // Check if the answer is correct
+            if (userAnswer === answers[`answer${i}`]) {
+              score++;
+              feedbackElement.innerHTML = "Correct!";
+            } else {
+              feedbackElement.innerHTML = "Incorrect. Try again!";
+            }
+          }
+        }
+
+        // Calculate and display the score
+        const percentage = (score / totalQuestions) * 100;
+        const resultElement = document.getElementById("result");
+        resultElement.innerHTML = `You got ${score}/${totalQuestions} (${percentage}%)`;
+
+        // Provide a response based on the score
+        if (percentage === 100) {
+          resultElement.innerHTML +=
+            "<p>Celebration! You're a Kung Fu Master!</p>";
+        } else if (percentage >= 75) {
+          resultElement.innerHTML +=
+            "<p>Great job! You're on the path to becoming a Kung Fu Master.</p>";
+        } else {
+          resultElement.innerHTML +=
+            "<p>Keep practicing! You can do better.</p>";
+        }
+      }
+    </script>
+  </body>
+</html>
